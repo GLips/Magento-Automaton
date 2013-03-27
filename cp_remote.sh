@@ -57,7 +57,7 @@ echo " Done zipping up files..."
 
 rm $EXCLUDE
 
-
+echo ""
 echo "Starting dump of MySQL table..."
 
 echo "Exporting database info..."
@@ -65,11 +65,13 @@ echo "Exporting database info..."
 mysqldump -u $MY_USER -p$MY_PASS $MY_TABLE > $DB
 echo " Done exporting database..."
 
+echo ""
 echo "Sending files to CP..."
 send_to_cp $FILES
 echo "Sending database to CP..."
 send_to_cp $DB
 
+echo ""
 echo "Cleaning up files..."
 rm $FILES
 rm $DB
