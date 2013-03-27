@@ -48,7 +48,8 @@ echo ""
 echo "Ignoring certain file types..."
 echo "*.sql
 *.tar*
-*.zip" > $EXCLUDE
+*.zip
+*.psd" > $EXCLUDE
 
 echo "Zipping up all relevant files..."
 tar zcf $FILES -X $EXCLUDE *;
