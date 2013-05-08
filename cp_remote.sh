@@ -34,7 +34,7 @@ read -p "MySQL table: " MY_TABLE
 read -p "CP server username: " CP_USER
 
 send_to_cp(){
-  scp ./$1 $CP_USER@dev.customerparadigm.com:/home/$CP_USER/public_html/
+  scp ./$1 ./$2 $CP_USER@dev.customerparadigm.com:/home/$CP_USER/public_html/
 }
 
 NOW=$(date +"%m-%d-%Y")
@@ -50,6 +50,13 @@ echo "*.sql
 *.tar*
 *.zip
 *.psd
+*.tgz
+error_log
+var/report/*
+var/tmp/*
+var/import/*
+/var/export/*
+var/rw_google_base/*
 var/cache/*
 var/session/*" > $EXCLUDE
 
@@ -60,6 +67,7 @@ echo " Done zipping up files..."
 rm $EXCLUDE
 
 echo ""
+echo "MYSQL"
 echo "Starting dump of MySQL table..."
 
 echo "Exporting database info..."
@@ -68,10 +76,9 @@ mysqldump -u $MY_USER -p$MY_PASS $MY_TABLE > $DB
 echo " Done exporting database..."
 
 echo ""
+echo "SENDING FILES"
 echo "Sending files to CP..."
-send_to_cp $FILES
-echo "Sending database to CP..."
-send_to_cp $DB
+send_to_cp $FILES $DB
 
 echo ""
 echo "Cleaning up files..."
