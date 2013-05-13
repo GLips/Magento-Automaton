@@ -49,14 +49,15 @@ overwrite_function() {
 
 import_mysql() {
   echo "Importing database information into $DB_NAME..."
-  mysql -u dev -puSF5k4RN72L8dhc $DB_NAME < $DB
+  mysql -u dev -p$DB_PASS $DB_NAME < $DB
   echo "Information imported into $DB_NAME..."
 }
 
 # Get new DIR_NAME name
 read -p "New repository name: " DIR_NAME
 # Get DB_NAME to import to
-read -p "New DB table: " DB_NAME
+read -p "New DB name: " DB_NAME
+read -p "DB Password: " DB_NAME
 
 # Create empty git repo using DIR_NAME
 echo "Creating a new repository in /home/repos/$DIR_NAME.git..."
@@ -79,13 +80,13 @@ echo "Extracting files into $DIR_NAME..."
 tar -zxf $FILES -C ./$DIR_NAME
 
 # Create new db table using $DB_NAME
-mysql -u dev -puSF5k4RN72L8dhc -Bse 'SHOW DATABASES' > $TABLES;
+mysql -u dev -p$DB_PASS -Bse 'SHOW DATABASES' > $TABLES;
 if grep --quiet -c $DB_NAME $TABLES; then
   # DB exists, ask user if they'd like to overwrite it
   overwrite_function
 else
   echo "Database doesn't already exist, building '$DB_NAME' now..."
-  mysql -u dev -puSF5k4RN72L8dhc -Bse "CREATE SCHEMA $DB_NAME"
+  mysql -u dev -p$DB_PASS -Bse "CREATE SCHEMA $DB_NAME"
   echo "Database '$DB_NAME' created..."
   import_mysql
 fi

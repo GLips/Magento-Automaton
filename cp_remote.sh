@@ -30,7 +30,7 @@ read -p "MySQL username: " MY_USER
 stty -echo
 read -p "MySQL password: " MY_PASS; echo
 stty echo
-read -p "MySQL table: " MY_TABLE
+read -p "MySQL DB name: " MY_TABLE
 read -p "CP server username: " CP_USER
 
 send_to_cp(){
